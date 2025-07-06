@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">ThirtyDiceGame</string>
+    <string name="roll_button">Roll</string>
+    <string name="heading">Thirty</string>
+    <string name="round_text">Round 1 of 10</string>
+    <string name="die_1">Dice 1</string>
+    <string name="die_2">Dice 2</string>
+    <string name="die_3">Dice 3</string>
+    <string name="die_4">Dice 4</string>
+    <string name="die_5">Dice 5</string>
+    <string name="die_6">Dice 6</string>
+
+    <string-array name="categories">
+        <item>Low</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+</resources>

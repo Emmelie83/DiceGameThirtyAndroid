@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="@string/heading"
+            android:textSize="24sp"
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:textAllCaps="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/diceRow1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/die1"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_1"
+            android:src="@drawable/die_1"
+            android:background="?android:selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/die2"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_2"
+            android:src="@drawable/die_2"
+            android:background="?android:selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/die3"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_3"
+            android:src="@drawable/die_3"
+            android:background="?android:selectableItemBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/diceRow2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/die4"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_4"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/die_4" />
+
+        <ImageView
+            android:id="@+id/die5"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_5"
+            android:src="@drawable/die_5"
+            android:background="?android:selectableItemBackground" />
+
+        <ImageView
+            android:id="@+id/die6"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/die_6"
+            android:src="@drawable/die_6"
+            android:background="?android:selectableItemBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/diceContainer"
+        android:layout_width="349dp"
+        android:layout_height="302dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="?android:selectableItemBackground"
+            android:entries="@array/categories"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/rollButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="@string/roll_button"
+            android:textAllCaps="true" />
+
+    </LinearLayout>
+
+</LinearLayout>
