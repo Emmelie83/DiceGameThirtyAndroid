@@ -2,10 +2,12 @@
     <string name="app_name">ThirtyDiceGame</string>
     <string name="roll_button">Roll</string>
     <string name="heading">Thirty</string>
-    <string name="round_number">Round: 1</string>
-    <string name="rolls_left">Rolls left: 3</string>
+    <string name="round_text">Round: %1$d</string>
+    <string name="rolls_left">Rolls left: %1$d</string>
     <string name="chose_score_category">Choose a score category</string>
-    <string name="instruction_text">Make first roll.</string>"
+    <string name="instruction_text_start">Tap ROLL to start the round.</string>
+    <string name="instruction_text_roll">Select dice to re-roll, or choose a score category to end the round.</string>
+    <string name="instruction_text_end_of_round">Round over – choose a score category.</string>
     <string name="next_round">Next Round</string>
     <string name="die_1">Dice 1</string>
     <string name="die_2">Dice 2</string>

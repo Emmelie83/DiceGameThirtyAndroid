@@ -1,39 +1,38 @@
 package com.emmeliejohansson.thirtydicegame
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.emmeliejohansson.thirtydicegame.databinding.ActivityMainBinding
 import com.emmeliejohansson.thirtydicegame.models.Game
 import com.emmeliejohansson.thirtydicegame.services.DiceStore
 import com.emmeliejohansson.thirtydicegame.managers.CategoryManager
-import com.google.android.flexbox.FlexboxLayout
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var game: Game
     private lateinit var diceImages: List<ImageView>
-    private lateinit var rollButton: Button
-    private lateinit var nextRoundButton: Button
     private lateinit var categoryManager: CategoryManager
-    private lateinit var categoryToggleGroup: FlexboxLayout
-    private lateinit var categorySection: LinearLayout
+    private lateinit var binding: ActivityMainBinding
+
+    companion object {
+        private const val COLOR_WHITE = "white"
+        private const val COLOR_RED = "red"
+        private const val COLOR_GRAY = "gray"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        categoryToggleGroup = findViewById(R.id.categoryToggleGroup)
-        nextRoundButton = findViewById(R.id.nextRoundButton)
-        rollButton = findViewById(R.id.rollButton)
-        categorySection = findViewById(R.id.categorySection)
-
-        categoryManager = CategoryManager(this, categoryToggleGroup, nextRoundButton)
+        categoryManager = CategoryManager(this, binding.categoryToggleGroup, binding.nextRoundButton)
 
         game = Game()
         game.fillDiceStore()
+        updateRoundText()
+        updateRollsLeftText()
 
         diceImages = listOf(
             findViewById(R.id.die1),
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.die6)
         )
 
-        nextRoundButton.isEnabled = false
+        binding.nextRoundButton.isEnabled = false
 
         diceImages.forEachIndexed { index, imageView ->
             imageView.setOnClickListener {
@@ -56,18 +55,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        rollButton.setOnClickListener {
+        binding.rollButton.setOnClickListener {
             if (!game.isGameOver()) {
                 game.rollDice()
                 categoryManager.enableAllButtons()
                 updateDiceImages()
+                updateRollsLeftText()
+                updateInstructionText()
             } else {
                 Toast.makeText(this, "Game Over!", Toast.LENGTH_SHORT).show()
             }
         }
 
 
-        nextRoundButton.setOnClickListener {
+        binding.nextRoundButton.setOnClickListener {
             val selectedCategory = categoryManager.getSelectedCategory()
             if (selectedCategory != null) {
                 game.useScoringCategory(selectedCategory)
@@ -75,49 +76,48 @@ class MainActivity : AppCompatActivity() {
                 categoryManager.disableAllButtons()
                 game.resetForNextRound()
                 updateDiceImages()
+                updateRoundText()
+                updateRollsLeftText()
+                updateInstructionText()
             }
         }
+    }
+
+    private fun updateRollsLeftText() {
+        binding.rollsLeftText.text = getString(R.string.rolls_left, (3 - game.rollCount))
+    }
+
+    private fun updateInstructionText() {
+        binding.instructionText.text = when {
+            game.rollCount == 0 -> getString(R.string.instruction_text_start)
+            game.rollCount == 1 -> getString(R.string.instruction_text_roll)
+            game.rollCount == 2 -> getString(R.string.instruction_text_roll)
+            else -> getString(R.string.instruction_text_end_of_round)
+        }
+    }
+
+    private fun updateRoundText() {
+        binding.roundText.text = getString(R.string.round_text, game.round)
     }
 
     private fun updateDiceImages() {
         DiceStore.getAllDice().forEachIndexed { index, die ->
             val imageRes = when {
-                !die.hasBeenRolled -> getWhiteDieImageRes(die.value)
-                game.isEndOfRound() -> getGrayDieImageRes(die.value)
-                die.isSelected -> getRedDieImageRes(die.value)
-                else -> getWhiteDieImageRes(die.value)
+                !die.hasBeenRolled -> getDieImageRes(die.value, COLOR_WHITE)
+                game.isEndOfRound() -> getDieImageRes(die.value, COLOR_GRAY)
+                die.isSelected -> getDieImageRes(die.value, COLOR_RED)
+                else -> getDieImageRes(die.value, COLOR_WHITE)
             }
             diceImages[index].setImageResource(imageRes)
         }
     }
 
-    private fun getWhiteDieImageRes(value: Int): Int = when (value) {
-        1 -> R.drawable.die_1
-        2 -> R.drawable.die_2
-        3 -> R.drawable.die_3
-        4 -> R.drawable.die_4
-        5 -> R.drawable.die_5
-        6 -> R.drawable.die_6
-        else -> R.drawable.die_1
-    }
-
-    private fun getRedDieImageRes(value: Int): Int = when (value) {
-        1 -> R.drawable.red_die_1
-        2 -> R.drawable.red_die_2
-        3 -> R.drawable.red_die_3
-        4 -> R.drawable.red_die_4
-        5 -> R.drawable.red_die_5
-        6 -> R.drawable.red_die_6
-        else -> R.drawable.red_die_1
-    }
-
-    private fun getGrayDieImageRes(value: Int): Int = when (value) {
-        1 -> R.drawable.gray_die_1
-        2 -> R.drawable.gray_die_2
-        3 -> R.drawable.gray_die_3
-        4 -> R.drawable.gray_die_4
-        5 -> R.drawable.gray_die_5
-        6 -> R.drawable.gray_die_6
-        else -> R.drawable.gray_die_1
+    private fun getDieImageRes(value: Int, color: String = "white"): Int {
+        val name = when (color) {
+            "red" -> "red_die_$value"
+            "gray" -> "gray_die_$value"
+            else -> "die_$value"
+        }
+        return resources.getIdentifier(name, "drawable", packageName)
     }
 }

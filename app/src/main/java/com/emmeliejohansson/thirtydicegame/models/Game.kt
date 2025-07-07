@@ -19,6 +19,7 @@ class Game {
         } else {
             rollActiveDice()
         }
+        DiceStore.deselectAllDice()
         rollCount++
     }
 
@@ -26,7 +27,7 @@ class Game {
 
     private fun rollActiveDice() {
         if (rollCount < 3) {
-            DiceStore.getActiveDice().forEach { it.roll() }
+            DiceStore.getSelectedDice().forEach { it.roll() }
         }
     }
 

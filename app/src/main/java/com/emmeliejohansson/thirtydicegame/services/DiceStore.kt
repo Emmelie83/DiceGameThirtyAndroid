@@ -13,24 +13,14 @@ class DiceStore {
             return diceList.find { it.id == id }
         }
 
-        fun resetAllDiceToActive() {
-            diceList.forEach {
-                it.isSelected = true
-            }
-        }
-
         fun getAllDice(): List<Die> = diceList.toList()
 
-        fun getActiveDice(): List<Die> {
+        fun getSelectedDice(): List<Die> {
             return diceList.filter { it.isSelected }
         }
 
-        fun getInactiveDice(): List<Die> {
-            return diceList.filter { !it.isSelected }
-        }
-
-        fun resetDice() {
-            diceList.clear()
+        fun deselectAllDice() {
+            diceList.forEach { it.isSelected = false }
         }
 
     }
