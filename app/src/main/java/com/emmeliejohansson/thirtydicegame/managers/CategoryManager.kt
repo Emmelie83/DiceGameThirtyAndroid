@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
-import androidx.core.content.ContextCompat
-import com.emmeliejohansson.thirtydicegame.R
 
 class CategoryManager(
     private val context: Context,
@@ -44,7 +42,7 @@ class CategoryManager(
         selectedButton = null
     }
 
-    fun renderCategoryOptions() {
+    private fun renderCategoryOptions() {
         categoryLayout.removeAllViews()
         categories.forEach { category ->
             val button = MaterialButton(context).apply {
@@ -53,7 +51,7 @@ class CategoryManager(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(40, 16, 40, 16)
+                    setMargins(16, 5, 16, 5)
                 }
                 isEnabled = false
 
@@ -67,10 +65,8 @@ class CategoryManager(
 
 
     private fun handleSelection(clickedButton: MaterialButton) {
-        // Deselect previous
         selectedButton?.isChecked = false
 
-        // Select new
         selectedButton = clickedButton
         clickedButton.isChecked = true
 

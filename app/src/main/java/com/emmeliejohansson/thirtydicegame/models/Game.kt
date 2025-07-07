@@ -42,8 +42,9 @@ class Game {
 
     fun resetForNextRound() {
         DiceStore.getAllDice().forEach {
-            it.isRollable = true
+            it.isSelected = false
             it.value = it.id
+            it.hasBeenRolled = false
         }
         rollCount = 0
         round++

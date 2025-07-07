@@ -1,7 +1,6 @@
 package com.emmeliejohansson.thirtydicegame
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         nextRoundButton = findViewById(R.id.nextRoundButton)
         rollButton = findViewById(R.id.rollButton)
         categorySection = findViewById(R.id.categorySection)
-        categorySection.visibility = View.GONE
 
         categoryManager = CategoryManager(this, categoryToggleGroup, nextRoundButton)
 
@@ -52,23 +50,17 @@ class MainActivity : AppCompatActivity() {
             imageView.setOnClickListener {
                 if (!game.isEndOfRound()) {
                     val die = DiceStore.getDieById(index + 1)
-                    die?.toggleIsRollable()
+                    die?.toggleIsSelected()
                     updateDiceImages()
                 }
             }
         }
 
-        updateDiceImages()
-
         rollButton.setOnClickListener {
             if (!game.isGameOver()) {
                 game.rollDice()
+                categoryManager.enableAllButtons()
                 updateDiceImages()
-
-                if (game.rollCount == 1) {
-                    categoryManager.enableAllButtons()
-                    categorySection.visibility = View.VISIBLE
-                }
             } else {
                 Toast.makeText(this, "Game Over!", Toast.LENGTH_SHORT).show()
             }
@@ -80,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             if (selectedCategory != null) {
                 game.useScoringCategory(selectedCategory)
                 categoryManager.removeCategory(selectedCategory)
-
+                categoryManager.disableAllButtons()
                 game.resetForNextRound()
                 updateDiceImages()
             }
@@ -90,9 +82,10 @@ class MainActivity : AppCompatActivity() {
     private fun updateDiceImages() {
         DiceStore.getAllDice().forEachIndexed { index, die ->
             val imageRes = when {
-                die.isRollable -> getWhiteDieImageRes(die.value)
+                !die.hasBeenRolled -> getWhiteDieImageRes(die.value)
                 game.isEndOfRound() -> getGrayDieImageRes(die.value)
-                else -> getRedDieImageRes(die.value)
+                die.isSelected -> getRedDieImageRes(die.value)
+                else -> getWhiteDieImageRes(die.value)
             }
             diceImages[index].setImageResource(imageRes)
         }
