@@ -15,18 +15,18 @@ class DiceStore {
 
         fun resetAllDiceToActive() {
             diceList.forEach {
-                it.isActive = true
+                it.isRollable = true
             }
         }
 
         fun getAllDice(): List<Die> = diceList.toList()
 
         fun getActiveDice(): List<Die> {
-            return diceList.filter { it.isActive }
+            return diceList.filter { it.isRollable }
         }
 
         fun getInactiveDice(): List<Die> {
-            return diceList.filter { !it.isActive }
+            return diceList.filter { !it.isRollable }
         }
 
         fun resetDice() {

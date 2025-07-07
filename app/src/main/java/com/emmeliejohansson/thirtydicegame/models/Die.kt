@@ -4,19 +4,18 @@ import kotlin.random.Random
 
 class Die(val id: Int) {
     var value = id
-    var isActive: Boolean = false
-    var isYetNotRolled: Boolean = true
+    var isRollable: Boolean = true
+    private var hasBeenRolled = false
 
     fun roll() {
-        if (isYetNotRolled || isActive) {
-            value = Random.nextInt(1, 7)
-            isYetNotRolled = false
-            isActive = false
-        }
+        if (!isRollable) return
+        value = Random.nextInt(1, 7)
+        hasBeenRolled = true
     }
 
-    fun toggleIsActive() {
-        if (isYetNotRolled) return
-        isActive = !isActive
+    fun toggleIsRollable() {
+        if (hasBeenRolled) {
+            isRollable = !isRollable
+        }
     }
 }

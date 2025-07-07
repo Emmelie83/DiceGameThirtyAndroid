@@ -24,12 +24,9 @@ class Game {
 
 
 
-
-
     private fun rollActiveDice() {
         if (rollCount < 3) {
             DiceStore.getActiveDice().forEach { it.roll() }
-
         }
     }
 
@@ -37,13 +34,21 @@ class Game {
             DiceStore.getAllDice().forEach { it.roll() }
     }
 
+    fun isEndOfRound(): Boolean {
+        return rollCount == 3
+    }
 
     fun isGameOver(): Boolean = round > 10
 
     fun resetForNextRound() {
-        DiceStore.resetAllDiceToActive()
+        DiceStore.getAllDice().forEach {
+            it.isRollable = true
+            it.value = it.id
+        }
         rollCount = 0
+        round++
     }
+
 
     fun useScoringCategory(category: Any) {
         scoringCategories.remove(category)

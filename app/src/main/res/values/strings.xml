@@ -2,7 +2,11 @@
     <string name="app_name">ThirtyDiceGame</string>
     <string name="roll_button">Roll</string>
     <string name="heading">Thirty</string>
-    <string name="round_text">Round 1 of 10</string>
+    <string name="round_number">Round: 1</string>
+    <string name="rolls_left">Rolls left: 3</string>
+    <string name="chose_score_category">Choose a score category</string>
+    <string name="instruction_text">Make first roll.</string>"
+    <string name="next_round">Next Round</string>
     <string name="die_1">Dice 1</string>
     <string name="die_2">Dice 2</string>
     <string name="die_3">Dice 3</string>
