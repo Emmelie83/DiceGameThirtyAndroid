@@ -16,23 +16,24 @@ class Game {
     fun rollDice() {
         if (rollCount == 0) {
             rollAllDice()
+            rollCount++
         } else {
-            rollActiveDice()
+            rollSelectedDice()
+            rollCount++
         }
         DiceStore.deselectAllDice()
-        rollCount++
     }
 
 
 
-    private fun rollActiveDice() {
+    private fun rollSelectedDice() {
         if (rollCount < 3) {
             DiceStore.getSelectedDice().forEach { it.roll() }
         }
     }
 
     private fun rollAllDice() {
-            DiceStore.getAllDice().forEach { it.roll() }
+        DiceStore.getAllDice().forEach { it.roll() }
     }
 
     fun isEndOfRound(): Boolean {

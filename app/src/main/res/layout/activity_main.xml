@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:id="@+id/mainContent"
@@ -20,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/blue"
+            android:background="@color/heading"
             android:gravity="center"
             android:text="@string/heading"
             android:textAllCaps="true"
@@ -170,19 +171,21 @@
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <Button
             android:id="@+id/nextRoundButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:text="@string/next_round"
             android:textAllCaps="true"
-            android:text="@string/next_round" />
+            app:icon="@drawable/arrow_right"
+            app:iconGravity="end" />
     </LinearLayout>
 
 </RelativeLayout>
