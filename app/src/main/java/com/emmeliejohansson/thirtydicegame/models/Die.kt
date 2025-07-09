@@ -8,7 +8,6 @@ class Die(val id: Int) {
     var hasBeenRolled = false
 
     fun roll() {
-        if (hasBeenRolled && !isSelected) return
         value = Random.nextInt(1, 7)
         hasBeenRolled = true
     }
@@ -17,5 +16,11 @@ class Die(val id: Int) {
         if (hasBeenRolled) {
             isSelected = !isSelected
         }
+    }
+
+    fun reset() {
+        value = id
+        isSelected = false
+        hasBeenRolled = false
     }
 }
