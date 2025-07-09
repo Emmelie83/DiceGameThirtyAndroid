@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">ThirtyDiceGame</string>
+    <string name="rules">
+        Rules:\n\n
+        1. A game consists of 10 rounds. \n\n
+        2. Each round has 2 chances to re-roll any number of dices.\n\n
+        3. Each value can be chosen to collect points only once.
+    </string>
     <string name="roll_button">Roll</string>
     <string name="heading">Thirty</string>
     <string name="round_text">Round: %1$d</string>
@@ -7,7 +13,7 @@
     <string name="chose_score_category">Choose a score category</string>
     <string name="instruction_text_start">Tap ROLL to start the round.</string>
     <string name="instruction_text_roll">Select dice to re-roll, or choose a score category to end the round.</string>
-    <string name="instruction_text_end_of_round">Round over – choose a score category.</string>
+    <string name="instruction_text_end_of_round">Round over – choose a score category and dice that should be used for scoring.</string>
     <string name="next_round">Next Round</string>
     <string name="die_1">Dice 1</string>
     <string name="die_2">Dice 2</string>
@@ -28,4 +34,30 @@
         <item>11</item>
         <item>12</item>
     </string-array>
+    <string name="see_result">See Result</string>
+    <string name="choiceTitle">Category</string>
+    <string name="scoreTitle">Score</string>
+    <string name="low_score_text">Low</string>
+    <string name="score_low">0</string>
+    <string name="score_4_text">4</string>
+    <string name="score_4">0</string>
+    <string name="score_5_text">5</string>
+    <string name="score_5">0</string>
+    <string name="score_6_text">6</string>
+    <string name="score_6">0</string>
+    <string name="score_7_text">7</string>
+    <string name="score_7">0</string>
+    <string name="score_8_text">8</string>
+    <string name="score_8">0</string>
+    <string name="score_9_text">9</string>
+    <string name="score_9">0</string>
+    <string name="score_10_text">10</string>
+    <string name="score_10">0</string>
+    <string name="score_11_text">11</string>
+    <string name="score_11">0</string>
+    <string name="score_12_text">12</string>
+    <string name="score_12">0</string>
+    <string name="final_score_text">Final score</string>
+    <string name="final_score">0</string>
+    <string name="play_again_button">Play Again</string>
 </resources>

@@ -7,13 +7,18 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.6.1"
 appcompat = "1.6.1"
+lifecycleViewmodelKtx = "2.9.1"
+lifecycleViewmodelKtxVersion = "2.7.0"
 material = "1.10.0"
 activity = "1.8.0"
 constraintlayout = "2.2.1"
 materialVersion = "1.12.0"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-viewmodel-ktx-v270 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
