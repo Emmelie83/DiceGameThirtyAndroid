@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThirtyDiceGame">
         <activity
-            android:name=".ResultActivity"
+            android:name=".ui.activities.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".GameActivity"
+            android:name=".ui.activities.GameActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

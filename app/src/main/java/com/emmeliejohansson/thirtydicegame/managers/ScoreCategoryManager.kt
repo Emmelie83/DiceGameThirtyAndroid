@@ -52,17 +52,12 @@ class ScoreCategoryManager(
     }
 
     private fun renderCategoryOptions(categories: List<ScoreOption>) {
-        clearCategoryLayout()
+        categoryLayout.removeAllViews()
+
         categories.forEach { category ->
             val button = createCategoryButton(category)
             categoryLayout.addView(button)
         }
-    }
-
-    private fun clearCategoryLayout() {
-        categoryLayout.removeAllViews()
-        selectedButton = null
-        nextRoundButton.isEnabled = false
     }
 
     private fun createCategoryButton(option: ScoreOption): MaterialButton {
@@ -86,7 +81,7 @@ class ScoreCategoryManager(
     private fun handleSelection(clickedButton: MaterialButton, notify: Boolean = true) {
         selectedButton?.apply {
             isChecked = false
-            backgroundTintList = ContextCompat.getColorStateList(context, R.color.white)
+            backgroundTintList = ContextCompat.getColorStateList(context, R.color.primary)
         }
 
         selectedButton = clickedButton

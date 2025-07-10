@@ -1,9 +1,10 @@
-package com.emmeliejohansson.thirtydicegame
+package com.emmeliejohansson.thirtydicegame.ui.activities
 
 import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.emmeliejohansson.thirtydicegame.R
 
 class ResultActivity : AppCompatActivity() {
 
