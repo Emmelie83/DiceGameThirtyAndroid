@@ -21,228 +21,241 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headingTextView"
+            android:gravity="center"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:layout_centerHorizontal="true">
 
-            <!-- Header -->
-            <TableRow>
-                <TextView
-                    android:layout_width="0dp"
+                <!-- Header Row -->
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/choiceTitle"
-                    android:textStyle="bold" />
+                    android:padding="5dp"
+                    android:background="@color/primary">
 
-                <TextView
-                    android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:text="@string/choiceTitle"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:text="@string/scoreTitle"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <!-- Category Rows (manually listed) -->
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/scoreTitle"
-                    android:textStyle="bold" />
-            </TableRow>
-
-
+                    android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/low_score_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_low"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_low"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/low_score_text" />
-
-                <TextView
-                    android:id="@+id/low_score"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_low" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_4_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_4"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_4_text" />
-
-                <TextView
-                    android:id="@+id/score_4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_4" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_5_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_5"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_5_text" />
-
-                <TextView
-                    android:id="@+id/score_5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_5" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_6_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_6"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_6_text" />
-
-                <TextView
-                    android:id="@+id/score_6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_6" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_7_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_7"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_7_text" />
-
-                <TextView
-                    android:id="@+id/score_7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_7" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_8_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_8"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_8"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_8_text" />
-
-                <TextView
-                    android:id="@+id/score_8"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_8" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_9_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_9"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_9"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_9_text" />
-
-                <TextView
-                    android:id="@+id/score_9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_9" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_10_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_10"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_10"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_10_text" />
-
-                <TextView
-                    android:id="@+id/score_10"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_10" />
-            </TableRow>
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_11_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_11"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_11"
+                        android:paddingStart="10dp"/>
+                </TableRow>
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_12_text"
+                        android:paddingStart="10dp"/>
+                    <TextView
+                        android:id="@+id/score_12"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/score_12"
+                        android:paddingStart="10dp"/>
+                </TableRow>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_11_text" />
-
-                <TextView
-                    android:id="@+id/score_11"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_11" />
-            </TableRow>
-
+                <!-- Final Total Score Row -->
             <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/final_score_text"
+                        android:paddingStart="10dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/score_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/final_score"
+                        android:paddingStart="10dp"
+                        android:textStyle="bold" />
+                </TableRow>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_12_text" />
-
-                <TextView
-                    android:id="@+id/score_12"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/score_12" />
-            </TableRow>
-
-            <TableRow
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="5dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/final_score_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/final_score"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/final_score"
-                    android:textStyle="bold" />
-            </TableRow>
 
         </TableLayout>
 

@@ -1,11 +1,26 @@
 <resources>
     <string name="app_name">ThirtyDiceGame</string>
-    <string name="rules">
-        Rules:\n\n
-        1. A game consists of 10 rounds. \n\n
-        2. Each round has 2 chances to re-roll any number of dices.\n\n
-        3. Each value can be chosen to collect points only once.
-    </string>
+    <string name="rules_heading">Rules</string>
+
+    <string name="rule_1">1.</string>
+    <string name="rule_1_text">The game is played with six dice.</string>
+
+    <string name="rule_2">2.</string>
+    <string name="rule_2_text">Each game consists of 10 rounds.</string>
+
+    <string name="rule_3">3.</string>
+    <string name="rule_3_text">In each round, the player may roll the dice up to three times. The player can choose which dice to re-roll and which to keep.</string>
+
+    <string name="rule_4">4.</string>
+    <string name="rule_4_text">After the third roll (or earlier if the player prefers), they choose a scoring category and select the dice to use for that category.</string>
+
+    <string name="rule_5">5.</string>
+    <string name="rule_5_text">Each scoring category can only be used once during the game.</string>
+
+    <string name="rule_6">6.</string>
+    <string name="rule_6_text">If the player selects the category "LOW", all dice with a value of 3 or less are added together for the score. If a category between 4 and 12 is selected, the player scores the sum of all unique combinations of dice that add up to that number.</string>
+
+    <string name="start_button">Start Game</string>
     <string name="roll_button">Roll</string>
     <string name="heading">Thirty</string>
     <string name="round_text">Round: %1$d</string>
@@ -23,21 +38,12 @@
     <string name="die_5">Dice 5</string>
     <string name="die_6">Dice 6</string>
 
-    <string-array name="categories">
-        <item>Low</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
+
     <string name="see_result">See Result</string>
     <string name="choiceTitle">Category</string>
     <string name="scoreTitle">Score</string>
+
+
     <string name="low_score_text">Low</string>
     <string name="score_low">0</string>
     <string name="score_4_text">4</string>
