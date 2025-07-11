@@ -2,6 +2,8 @@ package com.emmeliejohansson.thirtydicegame.managers
 
 import com.emmeliejohansson.thirtydicegame.models.Die
 import com.emmeliejohansson.thirtydicegame.models.Game
+import com.emmeliejohansson.thirtydicegame.models.ScoreCalculator
+import com.emmeliejohansson.thirtydicegame.models.ScoreOption
 import com.emmeliejohansson.thirtydicegame.repository.DiceRepository
 
 /**
@@ -74,12 +76,27 @@ class GameManager(
         incrementRollCount()
     }
 
-    /**
-     * Resets the current round and starts a new one.
-     */
-    fun resetRound() {
-        game.resetRound()
+    fun completeRound(category: ScoreOption): Result<Int> {
+        val selectedDice = getSelectedDice().map { it.value }
+
+        if (selectedDice.isEmpty()) {
+            return Result.failure(IllegalArgumentException("No dice selected."))
+        }
+
+        val scoreResult = ScoreCalculator.calculateScore(category, selectedDice)
+
+        return scoreResult.fold(
+            onSuccess = { score ->
+                game.scoreCategory(category, score)
+                game.resetRound()
+                Result.success(score)
+            },
+            onFailure = { error ->
+                Result.failure(error)
+            }
+        )
     }
+
 
     // ----------------------------
     // Dice Manipulation
@@ -122,6 +139,6 @@ class GameManager(
 
     /** Advances the game's internal roll counter. */
     private fun incrementRollCount() {
-        game.incrementRollCount()
+        game.currentRound.incrementRollCount()
     }
 }

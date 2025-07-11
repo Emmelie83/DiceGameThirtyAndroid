@@ -6,19 +6,22 @@
     <string name="rule_1_text">The game is played with six dice.</string>
 
     <string name="rule_2">2.</string>
-    <string name="rule_2_text">Each game consists of 10 rounds.</string>
+    <string name="rule_2_text">The game consists of 10 rounds.</string>
 
     <string name="rule_3">3.</string>
     <string name="rule_3_text">In each round, the player may roll the dice up to three times. The player can choose which dice to re-roll and which to keep.</string>
 
     <string name="rule_4">4.</string>
-    <string name="rule_4_text">After the third roll (or earlier if the player prefers), they choose a scoring category and select the dice to use for that category.</string>
+    <string name="rule_4_text">After the third roll (or earlier if the player chooses), the player selects a scoring category and the dice to use for scoring in that category.</string>
 
     <string name="rule_5">5.</string>
-    <string name="rule_5_text">Each scoring category can only be used once during the game.</string>
+    <string name="rule_5_text">Each scoring category may only be used once during the game.</string>
 
     <string name="rule_6">6.</string>
-    <string name="rule_6_text">If the player selects the category "LOW", all dice with a value of 3 or less are added together for the score. If a category between 4 and 12 is selected, the player scores the sum of all unique combinations of dice that add up to that number.</string>
+    <string name="rule_6_text">If the player selects the category "LOW", all dice with a value of 3 or less are added together for the score.</string>
+
+    <string name="rule_7">7.</string>
+    <string name="rule_7_text">If the player selects a category between 4 and 12, the score is the sum of all unique combinations of dice that add up to the selected category value.</string>
 
     <string name="start_button">Start Game</string>
     <string name="roll_button">Roll</string>
@@ -30,7 +33,7 @@
     <string name="instruction_text_select_dice_or_score">Select dice to re-roll, or choose a score category to end the round.</string>
     <string name="instruction_text_scoring_in_category">Scoring in category: %1$s. Select dice for scoring.</string>
     <string name="instruction_text_round_over">Round over - choose a category for scoring.</string>
-    <string name="next_round">Next Round</string>
+    <string name="next_round">Next</string>
     <string name="die_1">Dice 1</string>
     <string name="die_2">Dice 2</string>
     <string name="die_3">Dice 3</string>

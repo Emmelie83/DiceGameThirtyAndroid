@@ -8,7 +8,7 @@ enum class DieColor {
     /** Red indicates the die is currently selected by the player. */
     RED,
 
-    /** Gray indicates the die is inactive or has not been rolled. */
+    /** Gray indicates the die is inactive - has yet not been rolled or cannot be rolled any more in the current round. */
     GRAY,
 
     /** White indicates the die is active but not selected. */

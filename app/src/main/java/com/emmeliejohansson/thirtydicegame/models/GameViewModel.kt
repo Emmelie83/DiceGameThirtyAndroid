@@ -111,6 +111,16 @@ class GameViewModel : ViewModel() {
     /** Returns true if the game is over */
     fun isGameOver() = gameManager.isGameOver
 
+    fun completeRound(
+        selectedCategory: ScoreOption,
+        onSuccess: (isGameOver: Boolean) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        val result = gameManager.completeRound(selectedCategory)
+        handleScoreResult(selectedCategory, result, onSuccess, onFailure)
+    }
+
+
     /**
      * Checks if the roll button should be enabled
      *
@@ -129,7 +139,7 @@ class GameViewModel : ViewModel() {
     }
 
     /** Clears the selected score category */
-    fun clearSelectedCategory() {
+    private fun clearSelectedCategory() {
         selectedCategory = null
     }
 
@@ -152,30 +162,7 @@ class GameViewModel : ViewModel() {
     val isNextRoundButtonEnabled: Boolean
         get() = selectedCategory != null && isDiceSelected
 
-    /**
-     * Completes the current round by scoring the selected dice.
-     *
-     * @param selectedCategory the score category chosen
-     * @param onSuccess callback invoked with game over state if successful
-     * @param onFailure callback invoked if score calculation fails
-     */
-    fun completeRound(
-        selectedCategory: ScoreOption,
-        onSuccess: (isGameOver: Boolean) -> Unit,
-        onFailure: (Throwable) -> Unit
-    ) {
-        val selectedDice = getSelectedDice().map { it.value }
 
-        if (selectedDice.isEmpty()) {
-            onFailure(IllegalArgumentException("No dice selected."))
-            return
-        }
-
-        // Let ScoreCalculator handle logic like subset checks and scoring
-        val result = ScoreCalculator.calculateScore(selectedCategory, selectedDice)
-
-        handleScoreResult(selectedCategory, result, onSuccess, onFailure)
-    }
 
 
     /** Handles the result of score calculation */
@@ -188,7 +175,7 @@ class GameViewModel : ViewModel() {
         result.fold(
             onSuccess = { score ->
                 registerScore(category, score)
-                resetRound()
+                //resetRound()
                 onSuccess(isGameOver())
             },
             onFailure = { error ->
@@ -197,19 +184,19 @@ class GameViewModel : ViewModel() {
         )
     }
 
+    /** Resets internal state for UI round preparation */
+    fun prepareRoundForUI() {
+        resetRound()
+    }
+
 
     /** Resets the game state for the next round */
     private fun resetRound() {
-        gameManager.resetRound()
         clearSelectedCategory()
         gameManager.resetDice()
         setScoreButtonsEnabled(false)
     }
 
-    /** Resets internal state for UI round preparation */
-    fun prepareRoundForUI() {
-        resetRound()
-    }
 
     /**
      * Registers the score for a given category and updates category list

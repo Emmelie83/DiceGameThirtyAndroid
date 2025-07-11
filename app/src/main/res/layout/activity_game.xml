@@ -186,15 +186,15 @@
             android:textAllCaps="true"
             app:icon="@drawable/arrow_right"
             app:iconGravity="end" />
-        <Button
-            android:id="@+id/resultButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/see_result"
-            android:textAllCaps="true"
-            app:icon="@drawable/arrow_right"
-            app:iconGravity="end" />
+<!--        <Button-->
+<!--            android:id="@+id/resultButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:text="@string/see_result"-->
+<!--            android:textAllCaps="true"-->
+<!--            app:icon="@drawable/arrow_right"-->
+<!--            app:iconGravity="end" />-->
     </LinearLayout>
 
 </RelativeLayout>

@@ -119,25 +119,19 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        binding.resultButton.setOnClickListener {
-            navigateToResultScreen()
-        }
+//        binding.resultButton.setOnClickListener {
+//            navigateToResultScreen()
+//        }
     }
 
-    /**
-     * Completes the current round using the selected score category.
-     * Starts a new round or navigates to the result screen if the game is over.
-     */
+
     private fun onNextRound(selectedCategory: ScoreOption) {
         gameViewModel.completeRound(
             selectedCategory,
             onSuccess = { isGameOver ->
                 updateInstructionText()
-                if (isGameOver) {
-                    navigateToResultScreen()
-                } else {
-                    prepareNextRound()
-                }
+                if (isGameOver) navigateToResultScreen()
+                else prepareNextRound()
             },
             onFailure = { error -> showScoreError(error) }
         )

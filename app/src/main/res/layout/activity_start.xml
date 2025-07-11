@@ -175,6 +175,27 @@
                         android:text="@string/rule_6_text"
                         android:textColor="@color/black" />
                 </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rule_7"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:ellipsize="end"
+                        android:maxLines="10"
+                        android:text="@string/rule_7_text"
+                        android:textColor="@color/black" />
+                </TableRow>
 
             </TableLayout>
         </LinearLayout>

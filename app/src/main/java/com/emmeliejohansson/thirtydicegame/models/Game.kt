@@ -1,7 +1,7 @@
 package com.emmeliejohansson.thirtydicegame.models
 
 /**
- * Represents the overall game state, managing rounds and game progression.
+ * Represents the overall game state.
  */
 class Game {
 
@@ -9,6 +9,8 @@ class Game {
         const val MAX_ROUNDS = 10
         const val ROLLS_PER_ROUND = 3
     }
+
+    private var currentRoundNumber = 1
 
     /** List of completed rounds */
     private val rounds = mutableListOf<Round>()
@@ -25,14 +27,14 @@ class Game {
     private fun getRoundsPlayed(): Int = rounds.size
 
     /** Returns the 1-based index of the current round */
-    fun getCurrentRoundNumber(): Int = getRoundsPlayed() + 1
+    fun getCurrentRoundNumber(): Int = currentRoundNumber
 
     /** Returns true if another roll is allowed in this round */
     fun canRoll(): Boolean = currentRound.canRoll()
 
-    /** Increments the roll count of the current round */
-    fun incrementRollCount() {
-        currentRound.incrementRollCount()
+
+    fun scoreCategory(category: ScoreOption, score: Int) {
+        currentRound.setScore(category, score)
     }
 
     /**
@@ -42,5 +44,7 @@ class Game {
     fun resetRound() {
         rounds.add(currentRound)
         currentRound = Round()
+        currentRoundNumber++
     }
+
 }
