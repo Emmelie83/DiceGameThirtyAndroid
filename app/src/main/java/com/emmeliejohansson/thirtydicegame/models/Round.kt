@@ -17,8 +17,7 @@ class Round {
     private var selectedCategory: ScoreOption? = null
     private var score: Int? = null
 
-    var isScored: Boolean = false
-        private set
+    private var isScored: Boolean = false
 
     fun canRoll(): Boolean = rollCount < MAX_ROLLS
 
@@ -33,6 +32,10 @@ class Round {
         selectedCategory = category
         score = value
         isScored = true
+    }
+
+    fun restoreRollCount(count: Int) {
+        rollCount = count.coerceIn(0, MAX_ROLLS)
     }
 }
 

@@ -1,8 +1,12 @@
 package com.emmeliejohansson.thirtydicegame.models
 
+
 /**
  * Represents the overall game state.
+ *
  */
+
+
 class Game {
 
     companion object {
@@ -14,6 +18,7 @@ class Game {
 
     /** List of completed rounds */
     private val rounds = mutableListOf<Round>()
+    var dice: MutableList<Die> = mutableListOf()
 
     /** The current active round */
     var currentRound: Round = Round()
@@ -22,6 +27,10 @@ class Game {
     /** True if the maximum number of rounds has been played */
     val isGameOver: Boolean
         get() = getRoundsPlayed() >= MAX_ROUNDS
+
+    fun setCurrentRoundNumber(number: Int) {
+        currentRoundNumber = number
+    }
 
     /** Returns how many rounds have been completed */
     private fun getRoundsPlayed(): Int = rounds.size

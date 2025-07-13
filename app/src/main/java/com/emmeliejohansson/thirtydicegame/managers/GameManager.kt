@@ -36,9 +36,9 @@ class GameManager(
     /** Indicates if the game has ended (all rounds played). */
     val isGameOver: Boolean get() = game.isGameOver
 
-    // ----------------------------
-    // Game State Checkers
-    // ----------------------------
+    fun restoreRoundNumber(number: Int) {
+        game.setCurrentRoundNumber(number)
+    }
 
     /** Returns true if player can roll more dice this round. */
     private fun canRoll(): Boolean = game.canRoll()
@@ -97,7 +97,6 @@ class GameManager(
         )
     }
 
-
     // ----------------------------
     // Dice Manipulation
     // ----------------------------
@@ -140,5 +139,24 @@ class GameManager(
     /** Advances the game's internal roll counter. */
     private fun incrementRollCount() {
         game.currentRound.incrementRollCount()
+    }
+
+    fun restoreRollCount(rollCount: Int) {
+        game.currentRound.restoreRollCount(rollCount)
+    }
+
+    fun restoreDice(savedDice: List<Map<String, Any>>) {
+        val currentDice = diceRepository.getAllDice()
+        savedDice.forEachIndexed { index, savedDie ->
+            val value = savedDie["value"] as? Int ?: return@forEachIndexed
+            val isSelected = savedDie["isSelected"] as? Boolean ?: false
+            val hasBeenRolled = savedDie["hasBeenRolled"] as? Boolean ?: false
+
+            if (index in currentDice.indices) {
+                currentDice[index].value = value
+                currentDice[index].isSelected = isSelected
+                currentDice[index].hasBeenRolled = hasBeenRolled
+            }
+        }
     }
 }
