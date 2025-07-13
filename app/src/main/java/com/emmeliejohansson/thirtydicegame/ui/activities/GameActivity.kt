@@ -119,9 +119,6 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-//        binding.resultButton.setOnClickListener {
-//            navigateToResultScreen()
-//        }
     }
 
 
@@ -224,7 +221,7 @@ class GameActivity : AppCompatActivity() {
         val scoreMap = gameViewModel.getExportableScores()
         val serializableMap = HashMap<String, Int>().apply {
             for ((key, value) in scoreMap) {
-                put(key, value) // Use enum name as key
+                put(key, value)
             }
         }
 

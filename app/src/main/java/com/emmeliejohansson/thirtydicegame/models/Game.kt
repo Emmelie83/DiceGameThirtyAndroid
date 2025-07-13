@@ -10,7 +10,7 @@ package com.emmeliejohansson.thirtydicegame.models
 class Game {
 
     companion object {
-        const val MAX_ROUNDS = 10
+        const val MAX_ROUNDS = 3
         const val ROLLS_PER_ROUND = 3
     }
 
@@ -26,7 +26,7 @@ class Game {
 
     /** True if the maximum number of rounds has been played */
     val isGameOver: Boolean
-        get() = getRoundsPlayed() >= MAX_ROUNDS
+        get() = currentRoundNumber > MAX_ROUNDS
 
     fun setCurrentRoundNumber(number: Int) {
         currentRoundNumber = number

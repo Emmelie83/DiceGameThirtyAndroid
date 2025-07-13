@@ -35,6 +35,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
     var remainingCategories = ScoreOption.entries.toMutableList()
     var areScoreButtonsEnabled: Boolean = false
     private var isDiceSelected: Boolean = false
+    private var wasStateRestored = false
 
     init {
         restoreGameState()
@@ -100,7 +101,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         areScoreButtonsEnabled = enabled
     }
 
-    private fun getSelectedDice(): List<Die> = gameManager.getSelectedDice()
+
     fun getTotalScore(): Int = scoreMap.values.sum()
 
     val isNextRoundButtonEnabled: Boolean
@@ -113,7 +114,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
     private fun resetRound() {
         clearSelectedCategory()
         gameManager.resetDice()
-        setScoreButtonsEnabled(false)
+        if (!wasStateRestored) setScoreButtonsEnabled(false)
         saveGameState()
     }
 
@@ -200,6 +201,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
 
         updateDiceSelectionState()
         setScoreButtonsEnabled(areScoreButtonsEnabled)
+        wasStateRestored = true
 
     }
 }
