@@ -17,65 +17,56 @@ class GameManager(
     private val diceRepository: DiceRepository
 ) {
 
-    // ----------------------------
-    // Game State Properties
-    // ----------------------------
+    /** List of all dice in the current round. */
+    val dice: List<Die> get() = game.currentRound.dice
 
-    /** The current list of all dice in play. */
-    val dice: List<Die> get() = diceRepository.getAllDice()
-
-    /** Current number of rolls made in this round. */
+    /** Number of times the player has rolled in the current round. */
     val rollCount: Int get() = game.currentRound.rollCount
 
     /** Maximum rolls allowed per round. */
     val maxRolls: Int get() = Game.ROLLS_PER_ROUND
 
-    /** 1-based index of the current round. */
+    /** The current round number (1-based index). */
     val roundNumber: Int get() = game.getCurrentRoundNumber()
 
-    /** Indicates if the game has ended (all rounds played). */
+    /** Indicates whether the game has ended. */
     val isGameOver: Boolean get() = game.isGameOver
 
-    fun restoreRoundNumber(number: Int) {
-        game.setCurrentRoundNumber(number)
-    }
-
-    /** Returns true if player can roll more dice this round. */
-    private fun canRoll(): Boolean = game.canRoll()
-
-    /** Returns true if max number of rolls is reached. */
-    fun isRollLimitReached(): Boolean = rollCount >= maxRolls
-
-    /** Returns true if no more rolls are available in this round. */
-    fun isEndOfRound(): Boolean = !canRoll()
-
-    // ----------------------------
-    // Game Actions
-    // ----------------------------
-
     /**
-     * Rolls all or selected dice depending on the roll count.
+     * Rolls all dice on first roll, or only selected dice on subsequent rolls.
+     * Increments the roll count. No effect if roll limit is reached.
      */
     fun rollDice() {
-        if (!canRoll()) return
+        if (!canRollMore()) return
 
         if (rollCount == 0) {
-            rollAllDice()
+            dice.forEach { it.roll() }
         } else {
-            rollSelectedDice()
+            getSelectedDice().forEach { it.roll() }
+        }
+
+        game.currentRound.incrementRollCount()
+    }
+
+    /**
+     * Toggles the selected state of a die at the given index.
+     * Has no effect if the index is out of bounds.
+     *
+     * @param index Index of the die in the dice list.
+     */
+    fun toggleDieSelected(index: Int) {
+        if (index in dice.indices) {
+            dice[index].toggleIsSelected()
         }
     }
 
     /**
-     * Prepares for the next roll:
-     * - Deselects all dice.
-     * - Increments roll count.
+     * Completes the round by calculating the score for a selected category
+     * using the selected dice. Resets the round afterward.
+     *
+     * @param category The selected score category.
+     * @return Result containing score or an error if no dice were selected.
      */
-    fun prepareForNextRoll() {
-        diceRepository.deselectAllDice()
-        incrementRollCount()
-    }
-
     fun completeRound(category: ScoreOption): Result<Int> {
         val selectedDice = getSelectedDice().map { it.value }
 
@@ -83,9 +74,7 @@ class GameManager(
             return Result.failure(IllegalArgumentException("No dice selected."))
         }
 
-        val scoreResult = ScoreCalculator.calculateScore(category, selectedDice)
-
-        return scoreResult.fold(
+        return ScoreCalculator.calculateScore(category, selectedDice).fold(
             onSuccess = { score ->
                 game.scoreCategory(category, score)
                 game.resetRound()
@@ -97,66 +86,72 @@ class GameManager(
         )
     }
 
-    // ----------------------------
-    // Dice Manipulation
-    // ----------------------------
-
-    /** Rolls all six dice — only used at the start of a round. */
-    private fun rollAllDice() {
-        dice.forEach { it.roll() }
-    }
-
-    /** Rolls only the dice that the player has selected to keep. */
-    private fun rollSelectedDice() {
-        diceRepository.getSelectedDice().forEach { it.roll() }
-    }
-
     /**
-     * Toggles the selected state of a die by index (0-based).
-     * Does nothing if index is out of bounds or die not found.
-     */
-    fun toggleDieSelected(index: Int) {
-        if (index in 0 until dice.size) {
-            diceRepository.getDieById(index + 1)?.toggleIsSelected()
-        }
-    }
-
-    /** Returns a list of all currently selected dice. */
-    fun getSelectedDice(): List<Die> = diceRepository.getSelectedDice()
-
-    /**
-     * Resets all dice to initial state and clears selection.
+     * Resets all dice to their initial state (unselected and unrolled).
+     * Typically used when starting a new round.
      */
     fun resetDice() {
-        diceRepository.deselectAllDice()
-        diceRepository.resetDice()
+        dice.forEach { it.reset() }
     }
 
-    // ----------------------------
-    // Internal Helpers
-    // ----------------------------
-
-    /** Advances the game's internal roll counter. */
-    private fun incrementRollCount() {
-        game.currentRound.incrementRollCount()
+    /**
+     * Deselects all dice.
+     * Used to prepare for the next roll within the same round.
+     */
+    fun prepareForNextRoll() {
+        dice.forEach { it.deselect() }
     }
 
-    fun restoreRollCount(rollCount: Int) {
-        game.currentRound.restoreRollCount(rollCount)
+    /**
+     * Restores the round number (used when restoring saved game state).
+     *
+     * @param number Round number to restore.
+     */
+    fun restoreRoundNumber(number: Int) {
+        game.setCurrentRoundNumber(number)
     }
 
+    /**
+     * Restores the current round's roll count (used when restoring saved game state).
+     *
+     * @param count Number of rolls to set.
+     */
+    fun restoreRollCount(count: Int) {
+        game.currentRound.restoreRollCount(count)
+    }
+
+    /**
+     * Restores the state of all dice from saved data.
+     *
+     * @param savedDice List of maps representing die properties.
+     */
     fun restoreDice(savedDice: List<Map<String, Any>>) {
-        val currentDice = diceRepository.getAllDice()
+        val currentDice = dice
         savedDice.forEachIndexed { index, savedDie ->
-            val value = savedDie["value"] as? Int ?: return@forEachIndexed
-            val isSelected = savedDie["isSelected"] as? Boolean ?: false
-            val hasBeenRolled = savedDie["hasBeenRolled"] as? Boolean ?: false
+            val value = savedDie["value"]
+            val isSelected = savedDie["isSelected"]
+            val hasBeenRolled = savedDie["hasBeenRolled"]
 
-            if (index in currentDice.indices) {
-                currentDice[index].value = value
-                currentDice[index].isSelected = isSelected
-                currentDice[index].hasBeenRolled = hasBeenRolled
+            if (value is Int && isSelected is Boolean && hasBeenRolled is Boolean) {
+                if (index in currentDice.indices) {
+                    currentDice[index].restoreState(value, isSelected, hasBeenRolled)
+                }
             }
         }
     }
+
+    /**
+     * Returns true if the player is allowed to roll again in the current round.
+     */
+    fun canRollMore(): Boolean = rollCount < maxRolls
+
+    /**
+     * Returns true if the player has reached the roll limit for the current round.
+     */
+    fun isRollLimitReached(): Boolean = rollCount >= maxRolls
+
+    /**
+     * Returns a list of all currently selected dice.
+     */
+    private fun getSelectedDice(): List<Die> = dice.filter { it.isSelected }
 }

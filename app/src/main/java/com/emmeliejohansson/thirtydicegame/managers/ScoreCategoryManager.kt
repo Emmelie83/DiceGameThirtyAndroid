@@ -12,11 +12,9 @@ import com.google.android.material.button.MaterialButton
 /**
  * Handles UI logic for score category buttons.
  *
- * This class:
- * - Dynamically creates category buttons based on available options.
- * - Tracks and updates selected category.
- * - Notifies listeners when a category is selected.
- * - Manages enabled/disabled states for category buttons.
+ * @param context The context used to create UI elements.
+ * @param categoryLayout The FlexboxLayout where buttons are added.
+ * @param nextRoundButton Button that proceeds to the next round (enabled on category selection).
  */
 class ScoreCategoryManager(
     private val context: Context,
@@ -28,19 +26,19 @@ class ScoreCategoryManager(
     private var onCategorySelected: ((ScoreOption) -> Unit)? = null
     private var currentCategories: List<ScoreOption> = emptyList()
 
-    // ----------------------------
-    // Public Interface
-    // ----------------------------
-
     /**
-     * Registers a listener for when a category is selected.
+     * Registers a listener that is triggered when a category is selected.
+     *
+     * @param listener Callback invoked with the selected category.
      */
     fun setOnCategorySelectedListener(listener: (ScoreOption) -> Unit) {
         onCategorySelected = listener
     }
 
     /**
-     * Renders the given list of categories as buttons.
+     * Sets and displays the list of selectable categories as buttons.
+     *
+     * @param categories List of score categories to display.
      */
     fun setCategories(categories: List<ScoreOption>) {
         currentCategories = categories
@@ -48,8 +46,10 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Visually selects a category button and disables it.
-     * Does NOT notify listeners.
+     * Marks a specific category button as selected and disables it.
+     * Does NOT trigger the category selection listener.
+     *
+     * @param category The category to mark as selected.
      */
     fun setSelectedCategory(category: ScoreOption) {
         findButtonByCategory(category)?.let {
@@ -59,31 +59,29 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Returns the currently selected score category, if any.
+     * Returns the currently selected score category, or null if none.
      */
     fun getSelectedCategory(): ScoreOption? =
         selectedButton?.tag as? ScoreOption
 
     /**
-     * Enables all category buttons (e.g., at start of turn).
+     * Enables all category buttons.
+     * Typically called at the beginning of a new round.
      */
     fun enableAllButtons() {
         forEachButton { it.isEnabled = true }
     }
 
     /**
-     * Disables all category buttons (e.g., after scoring).
+     * Disables all category buttons.
+     * Typically used after a category has been selected and locked in.
      */
     fun disableAllButtons() {
         forEachButton { it.isEnabled = false }
     }
 
-    // ----------------------------
-    // Private Helpers
-    // ----------------------------
-
     /**
-     * Clears and re-renders buttons for the provided categories.
+     * Removes all buttons from the layout and recreates them based on the category list.
      */
     private fun renderCategoryOptions(categories: List<ScoreOption>) {
         categoryLayout.removeAllViews()
@@ -94,7 +92,9 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Creates a MaterialButton for a specific score category.
+     * Creates and returns a MaterialButton for the given score category.
+     *
+     * @param option The category this button represents.
      */
     private fun createCategoryButton(option: ScoreOption): MaterialButton {
         return MaterialButton(context).apply {
@@ -102,7 +102,7 @@ class ScoreCategoryManager(
             tag = option
             layoutParams = createButtonLayoutParams()
             isCheckable = true
-            isEnabled = false
+            isEnabled = false // Initially disabled until game state allows interaction
 
             setOnClickListener {
                 handleSelection(this)
@@ -111,7 +111,15 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Handles visual and logical changes when a button is selected.
+     * Handles selection of a category button:
+     * - Deselects the previous selection.
+     * - Marks the clicked button as selected.
+     * - Changes button color.
+     * - Enables the "Next Round" button.
+     * - Notifies the listener if requested.
+     *
+     * @param clickedButton The button the user clicked.
+     * @param notify Whether to notify the category selection listener.
      */
     private fun handleSelection(clickedButton: MaterialButton, notify: Boolean = true) {
         selectedButton?.apply {
@@ -124,7 +132,6 @@ class ScoreCategoryManager(
         clickedButton.backgroundTintList =
             ContextCompat.getColorStateList(context, R.color.category_selected)
 
-        // Enable "Next Round" button
         nextRoundButton.isEnabled = true
 
         if (notify) {
@@ -133,7 +140,7 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Returns layout parameters with margins for category buttons.
+     * Returns layout parameters with spacing for each category button.
      */
     private fun createButtonLayoutParams(): ViewGroup.MarginLayoutParams {
         return ViewGroup.MarginLayoutParams(
@@ -145,7 +152,10 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Finds a button in the layout that matches the given score category.
+     * Searches for a button associated with the given score category.
+     *
+     * @param category The category to search for.
+     * @return The matching button, or null if not found.
      */
     private fun findButtonByCategory(category: ScoreOption): MaterialButton? {
         for (i in 0 until categoryLayout.childCount) {
@@ -158,7 +168,9 @@ class ScoreCategoryManager(
     }
 
     /**
-     * Iterates over all buttons in the layout and applies the given action.
+     * Applies an action to all MaterialButtons in the category layout.
+     *
+     * @param action The operation to apply to each button.
      */
     private fun forEachButton(action: (MaterialButton) -> Unit) {
         for (i in 0 until categoryLayout.childCount) {

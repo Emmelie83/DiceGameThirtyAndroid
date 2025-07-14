@@ -29,13 +29,13 @@ class DefaultDiceRepository(
      * @param id The ID of the die to retrieve.
      * @return The matching Die object, or null if not found.
      */
-    override fun getDieById(id: Int): Die? = game.currentRound.dice.find { it.id == id }
+    override fun getDieById(id: Int): Die? = game.currentRound.dice.find { it.initialValue == id }
 
     /**
      * Deselects all dice, typically after a roll or when resetting state.
      */
     override fun deselectAllDice() {
-        game.currentRound.dice.forEach { it.isSelected = false }
+        game.currentRound.dice.forEach { it.deselect() }
     }
 
     /**

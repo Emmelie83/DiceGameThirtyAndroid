@@ -31,7 +31,7 @@
     <string name="chose_score_category">Choose a score category</string>
     <string name="instruction_text_start">Tap ROLL to start the round.</string>
     <string name="instruction_text_select_dice_or_score">Select dice to re-roll, or choose a score category to end the round.</string>
-    <string name="instruction_text_scoring_in_category">Scoring in category: %1$s. Select dice for scoring.</string>
+    <string name="instruction_text_scoring_in_category">Scoring in category: %1$s. Select dice for scoring, then tap NEXT.</string>
     <string name="instruction_text_round_over">Round over - choose a category for scoring.</string>
     <string name="next_round">Next</string>
     <string name="die_1">Dice 1</string>

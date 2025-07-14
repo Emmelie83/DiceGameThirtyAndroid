@@ -102,8 +102,13 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    /** Sets up button click listeners for roll, next round, and result actions */
+    /** Sets up button click listeners for roll and next round actions */
     private fun setupButtonListeners() {
+        setupRollButtonListener()
+        setupNextRoundButtonListener()
+    }
+
+    private fun setupRollButtonListener() {
         binding.rollButton.setOnClickListener {
             if (!gameViewModel.isGameOver()) {
                 gameViewModel.rollDice()
@@ -112,13 +117,14 @@ class GameActivity : AppCompatActivity() {
                 updateUI()
             }
         }
+    }
 
+    private fun setupNextRoundButtonListener() {
         binding.nextRoundButton.setOnClickListener {
             categoryManager.getSelectedCategory()?.let { selectedCategory ->
                 onNextRound(selectedCategory)
             }
         }
-
     }
 
 
@@ -213,22 +219,27 @@ class GameActivity : AppCompatActivity() {
         binding.rollButton.isEnabled = gameViewModel.isRollButtonEnabled()
     }
 
-    /**
-     * Navigates to the result screen and passes score data
-     */
+    /** Navigates to the result screen and passes score data */
     private fun navigateToResultScreen() {
-        Log.e("TestLog", "navigateToResultScreen called")
-        val scoreMap = gameViewModel.getExportableScores()
-        val serializableMap = HashMap<String, Int>().apply {
-            for ((key, value) in scoreMap) {
+        Log.d("GameActivity", "Navigating to result screen")
+        val intent = createResultIntent()
+        startActivity(intent)
+    }
+
+    /** Creates the intent with score data to launch the result screen */
+    private fun createResultIntent(): Intent {
+        return Intent(this, ResultActivity::class.java).apply {
+            putExtra("scores", getSerializableScoreMap())
+            putExtra("total", gameViewModel.getTotalScore())
+        }
+    }
+
+    /** Converts the score map to a serializable format */
+    private fun getSerializableScoreMap(): HashMap<String, Int> {
+        return HashMap<String, Int>().apply {
+            gameViewModel.getExportableScores().forEach { (key, value) ->
                 put(key, value)
             }
         }
-
-        val intent = Intent(this, ResultActivity::class.java).apply {
-            putExtra("scores", serializableMap)
-            putExtra("total", gameViewModel.getTotalScore())
-        }
-        startActivity(intent)
     }
 }
