@@ -25,8 +25,6 @@ object DieImageMapper {
         }
     }
 
-    // Helper functions to map die value to drawable resource per color variant
-
     private fun getRedDieRes(value: Int) = when (value) {
         1 -> R.drawable.red_die_1
         2 -> R.drawable.red_die_2

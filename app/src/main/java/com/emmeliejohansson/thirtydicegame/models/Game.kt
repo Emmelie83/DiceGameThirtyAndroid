@@ -9,7 +9,7 @@ class Game {
         /**
          * The maximum number of rounds in a game.
          */
-        const val MAX_ROUNDS = 3
+        const val MAX_ROUNDS = 10
 
         /**
          * The maximum number of rolls allowed per round.

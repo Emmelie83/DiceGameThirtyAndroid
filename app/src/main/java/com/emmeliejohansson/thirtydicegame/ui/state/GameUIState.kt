@@ -21,29 +21,22 @@ class GameUIState {
      */
     fun getDieColor(die: Die, hasNoMoreRolls: Boolean): DieColor {
         return when {
-            // If the die hasn't been rolled yet, show it as gray (inactive)
-            !die.hasBeenRolled -> DieColor.GRAY
-
-            // If the die is selected by the player, highlight it as red
-            die.isSelected -> DieColor.RED
-
-            // If no more rolls are allowed in this round, show dice as gray to indicate locked
-            hasNoMoreRolls -> DieColor.GRAY
-
-            // Otherwise, display dice in default white color (available for interaction)
-            else -> DieColor.WHITE
+            !die.hasBeenRolled     -> DieColor.GRAY    // Unused die
+            die.isSelected         -> DieColor.RED     // Selected by player
+            hasNoMoreRolls         -> DieColor.GRAY    // Locked due to no rolls left
+            else                   -> DieColor.WHITE   // Default, active state
         }
     }
 
     /**
-     * Generates an instruction text string to guide the player based on the current game state.
+     * Generates localized instruction text to guide the user based on game state.
      *
-     * @param context Android context used for string resource access and localization.
-     * @param rollCount Number of rolls that have already been performed this round.
-     * @param isScoreCategoryChosen True if the player has selected a scoring category.
-     * @param selectedCategory The currently selected scoring category, if any.
+     * @param context Android context used for accessing string resources.
+     * @param rollCount Current roll count in the round.
+     * @param isScoreCategoryChosen Whether a scoring category has been selected.
+     * @param selectedCategory The selected category, if any.
      * @param maxRolls The maximum number of rolls allowed per round.
-     * @return A localized instruction string to be displayed to the user.
+     * @return A localized instruction string.
      */
     fun getInstructionText(
         context: Context,
@@ -53,20 +46,35 @@ class GameUIState {
         maxRolls: Int
     ): String {
         return when {
-            // When no rolls have been made yet, instruct the player to start rolling
-            rollCount == 0 -> context.getString(R.string.instruction_text_start)
+            isFirstRoll(rollCount) ->
+                context.getString(R.string.instruction_text_start)
 
-            // When a scoring category is selected, instruct to score in that category
-            isScoreCategoryChosen -> {
-                val categoryName = selectedCategory?.label ?: "?"
-                context.getString(R.string.instruction_text_scoring_in_category, categoryName)
-            }
+            isScoreCategoryChosen ->
+                getScoringInstruction(context, selectedCategory)
 
-            // When maximum rolls have been reached, indicate the round is over
-            rollCount >= maxRolls -> context.getString(R.string.instruction_text_round_over)
+            isRollLimitReached(rollCount, maxRolls) ->
+                context.getString(R.string.instruction_text_round_over)
 
-            // Default case: prompt player to select dice or score
-            else -> context.getString(R.string.instruction_text_select_dice_or_score)
+            else ->
+                context.getString(R.string.instruction_text_select_dice_or_score)
         }
+    }
+
+    /**
+     * Checks if the player is on their first roll of the round.
+     */
+    private fun isFirstRoll(rollCount: Int) = rollCount == 0
+
+    /**
+     * Checks if the player has exhausted all rolls for the round.
+     */
+    private fun isRollLimitReached(rollCount: Int, maxRolls: Int) = rollCount >= maxRolls
+
+    /**
+     * Returns a localized string instructing the user to score in the selected category.
+     */
+    private fun getScoringInstruction(context: Context, category: ScoreOption?): String {
+        val categoryLabel = category?.label ?: "?"
+        return context.getString(R.string.instruction_text_scoring_in_category, categoryLabel)
     }
 }

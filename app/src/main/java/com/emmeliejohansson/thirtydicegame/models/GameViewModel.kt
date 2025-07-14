@@ -9,12 +9,13 @@ import com.emmeliejohansson.thirtydicegame.repository.DiceRepository
 import com.emmeliejohansson.thirtydicegame.ui.state.GameUIState
 
 /**
- * ViewModel managing the game logic, state persistence, and UI-related data
+ * ViewModel responsible for managing game logic, player interactions,
+ * state restoration, and UI-related information in the Thirty Dice Game.
  */
 class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     companion object {
-        // Keys used for saving/restoring state
+        // Keys used for persisting and restoring game state
         private const val KEY_SCORE_MAP = "scoreMap"
         private const val KEY_REMAINING_CATEGORIES = "remainingCategories"
         private const val KEY_ROLLS_LEFT = "rollsLeft"
@@ -45,21 +46,21 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         restoreGameState()
     }
 
-    /** Rolls the dice and saves game state */
+    /** Rolls the dice and updates selection state and persistence */
     fun rollDice() {
         gameManager.rollDice()
         updateDiceSelectionState()
         saveGameState()
     }
 
-    /** Prepares for another roll (resets selections, etc.) */
+    /** Resets dice selection after a roll and persists state */
     fun prepareForNextRoll() {
         gameManager.prepareForNextRoll()
         updateDiceSelectionState()
         saveGameState()
     }
 
-    /** Toggles the selection state of a die at a given index */
+    /** Toggles selection of a die (if the user has already rolled at least once) */
     fun toggleDieSelected(index: Int) {
         if (rollCount > 0) {
             gameManager.toggleDieSelected(index)
@@ -67,7 +68,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         }
     }
 
-    /** Returns the instructional UI text based on game state */
+    /** Returns user instruction text based on the current game state */
     fun getInstructionText(context: Context): String {
         return uiState.getInstructionText(
             context = context,
@@ -78,16 +79,17 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         )
     }
 
-    /** Returns the correct color for a die depending on its state */
+    /** Returns appropriate color for a die depending on its current status */
     fun getDieColor(die: Die): DieColor {
         return uiState.getDieColor(die, gameManager.isRollLimitReached())
     }
 
-    /** Returns whether the game has reached its end */
+    /** Checks whether the game has ended (all categories scored) */
     fun isGameOver() = gameManager.isGameOver
 
     /**
-     * Completes the current round and registers the score
+     * Finalizes a round by calculating and registering score.
+     * Invokes the given callbacks for success/failure.
      */
     fun completeRound(
         selectedCategory: ScoreOption,
@@ -98,7 +100,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         handleScoreResult(selectedCategory, result, onSuccess, onFailure)
     }
 
-    /** Determines whether the "Roll" button should be enabled */
+    /** Determines whether the roll button should be enabled */
     fun isRollButtonEnabled(): Boolean {
         return (rollCount == 0 || isDiceSelected) && gameManager.canRollMore()
     }
@@ -113,24 +115,24 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         selectedCategory = null
     }
 
-    /** Enables or disables the score buttons in the UI */
+    /** Enables or disables the category scoring buttons */
     fun setScoreButtonsEnabled(enabled: Boolean) {
         areScoreButtonsEnabled = enabled
     }
 
-    /** Returns the total score accumulated */
+    /** Calculates and returns the total score accumulated by the player */
     fun getTotalScore(): Int = scoreMap.values.sum()
 
-    /** Returns whether the "Next Round" button should be enabled */
+    /** Returns whether the 'Next Round' button should be active */
     val isNextRoundButtonEnabled: Boolean
         get() = selectedCategory != null && isDiceSelected
 
-    /** Prepares game for a new round (resets category, dice, state) */
+    /** Resets relevant state at the start of a new round */
     fun prepareRoundForUI() {
         resetRound()
     }
 
-    /** Resets round-related state and persists the game state */
+    /** Clears state and prepares dice for a new round */
     private fun resetRound() {
         clearSelectedCategory()
         gameManager.resetDice()
@@ -138,7 +140,7 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         saveGameState()
     }
 
-    /** Registers the score for a selected category if not already set */
+    /** Registers score for a selected category and removes it from the list */
     private fun registerScore(category: ScoreOption, score: Int) {
         if (!scoreMap.containsKey(category)) {
             scoreMap[category] = score
@@ -147,14 +149,12 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         }
     }
 
-    /** Returns scores in a serializable map (String keys) */
+    /** Converts score data to a serializable map with string keys */
     fun getExportableScores(): Map<String, Int> {
         return scoreMap.mapKeys { it.key.name }
     }
 
-    /**
-     * Handles result of score calculation (either success or failure)
-     */
+    /** Handles result of scoring operation: register on success, report on failure */
     private fun handleScoreResult(
         category: ScoreOption,
         result: Result<Int>,
@@ -173,12 +173,12 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         )
     }
 
-    /** Updates state flag to track if any dice are selected */
+    /** Updates whether any dice are currently selected */
     private fun updateDiceSelectionState() {
         isDiceSelected = dice.any { it.isSelected }
     }
 
-    /** Persists current game state using the SavedStateHandle */
+    /** Saves all current game state into SavedStateHandle for process restoration */
     private fun saveGameState() {
         savedStateHandle[KEY_SCORE_MAP] = scoreMap.mapKeys { it.key.name }
         savedStateHandle[KEY_REMAINING_CATEGORIES] = remainingCategories.map { it.name }
@@ -194,42 +194,64 @@ class GameViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         savedStateHandle["scoreButtonsEnabled"] = areScoreButtonsEnabled
     }
 
-    /**
-     * Restores game state from SavedStateHandle (e.g. after process death)
-     */
+    /** Restores all persisted game state from SavedStateHandle */
     private fun restoreGameState() {
+        restoreScoreMap()
+        restoreRemainingCategories()
+        restoreRollCount()
+        restoreRoundNumber()
+        restoreDice()
+        restoreScoreButtonsEnabled()
+        updateDiceSelectionState()
+        setScoreButtonsEnabled(areScoreButtonsEnabled)
+        wasStateRestored = true
+    }
+
+    /** Restores score values for each category */
+    private fun restoreScoreMap() {
         val savedScoreMap = savedStateHandle.get<Map<String, Int>>(KEY_SCORE_MAP)
         savedScoreMap?.forEach { (key, value) ->
             val category = ScoreOption.valueOf(key)
             scoreMap[category] = value
         }
+    }
 
+    /** Restores which scoring categories remain available */
+    private fun restoreRemainingCategories() {
         val savedRemaining = savedStateHandle.get<List<String>>(KEY_REMAINING_CATEGORIES)
         savedRemaining?.let {
             remainingCategories = it.map { name -> ScoreOption.valueOf(name) }.toMutableList()
         }
+    }
 
+    /** Restores how many rolls were left in the current round */
+    private fun restoreRollCount() {
         val savedRollsLeft = savedStateHandle.get<Int>(KEY_ROLLS_LEFT)
         savedRollsLeft?.let {
             val rollCount = Game.ROLLS_PER_ROUND - it
             gameManager.restoreRollCount(rollCount)
         }
+    }
 
+    /** Restores the current round number */
+    private fun restoreRoundNumber() {
         val savedRoundNumber = savedStateHandle.get<Int>(KEY_ROUND_NUMBER)
         savedRoundNumber?.let {
             gameManager.restoreRoundNumber(it)
         }
+    }
 
+    /** Restores the dice values, selections, and roll status */
+    private fun restoreDice() {
         val savedDice = savedStateHandle.get<List<Map<String, Any>>>(KEY_DICE)
         savedDice?.let {
             gameManager.restoreDice(it)
         }
+    }
 
+    /** Restores whether score buttons were enabled */
+    private fun restoreScoreButtonsEnabled() {
         val scoreButtonsEnabled = savedStateHandle.get<Boolean>("scoreButtonsEnabled")
         areScoreButtonsEnabled = scoreButtonsEnabled ?: false
-
-        updateDiceSelectionState()
-        setScoreButtonsEnabled(areScoreButtonsEnabled)
-        wasStateRestored = true
     }
 }
